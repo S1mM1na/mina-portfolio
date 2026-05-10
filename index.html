@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- TODO: 본인 이름과 직무로 바꾸세요 -->
+  <title>심민아 | 백엔드 개발자</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --border: rgba(255,255,255,0.08);
+      --text: #f0ede8;
+      --muted: #888884;
+      --accent: #5174be;   /* TODO: 원하는 포인트 컬러로 변경하세요 */
+      --font-serif: 'Instrument Serif', serif;
+      --font-sans: 'Sora', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      background: rgba(10,10,10,0.7);
+    }
+    .nav-logo { font-family: var(--font-serif); font-size: 1.3rem; letter-spacing: -0.01em; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 0.04em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── SECTIONS ── */
+    section { padding: 7rem 4rem; max-width: 1100px; margin: 0 auto; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 4rem;
+      padding-top: 8rem;
+      max-width: 100%;
+      padding-left: 8rem; padding-right: 8rem;
+    }
+    .hero-content { flex: 1; }
+    .hero-photo-wrap {
+      flex-shrink: 0;
+      width: 300px; height: 380px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+      background: var(--surface);
+    }
+    /* TODO: 사진을 넣으면 이 placeholder가 자동으로 가려집니다 */
+    .hero-photo-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 12px; color: var(--muted);
+    }
+    .hero-photo-placeholder svg { opacity: 0.3; }
+    .hero-photo-placeholder span { font-size: 12px; letter-spacing: 0.08em; opacity: 0.5; }
+    /* TODO: <img> 태그를 추가하면 아래 스타일이 사진을 꽉 채워줍니다 */
+    .hero-photo-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      position: absolute; inset: 0;
+    }
+    .hero-eyebrow {
+      font-size: 11px; letter-spacing: 0.2em; color: var(--accent);
+      text-transform: uppercase; margin-bottom: 1.5rem;
+    }
+    .hero-name {
+      font-family: var(--font-serif);
+      font-size: clamp(4rem, 10vw, 8rem);
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-desc { font-size: 1.1rem; color: var(--muted); max-width: 500px; margin-bottom: 3rem; line-height: 1.8; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 0.75rem 1.75rem; border-radius: 100px;
+      font-size: 13px; font-family: var(--font-sans); font-weight: 500;
+      letter-spacing: 0.04em; text-decoration: none; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: #1a0a0f; border: none; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.3); }
+
+    /* ── DIVIDER ── */
+    .section-label {
+      font-size: 11px; letter-spacing: 0.2em; color: var(--muted);
+      text-transform: uppercase; margin-bottom: 3rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      line-height: 1.2;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .about-bio { font-size: 1rem; color: var(--muted); line-height: 1.9; }
+    .about-bio p + p { margin-top: 1rem; }
+    .about-bio strong { color: var(--text); font-weight: 500; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.5rem; }
+    .tag {
+      padding: 4px 14px; border-radius: 100px;
+      font-size: 12px; border: 1px solid var(--border);
+      color: var(--muted); letter-spacing: 0.04em;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+    .skill-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem;
+    }
+    .skill-card h3 { font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; }
+    .skill-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .skill-item { font-size: 12px; color: var(--muted); background: rgba(255,255,255,0.04); padding: 3px 10px; border-radius: 100px; }
+
+    /* ── PROJECTS ── */
+    .project-list { display: flex; flex-direction: column; gap: 1px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .project-item {
+      background: var(--surface);
+      padding: 2rem 2.5rem;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .project-item:last-child { border-bottom: none; }
+    .project-item:hover { background: rgba(255,255,255,0.03); }
+    .project-meta { flex: 1; }
+    .project-num { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+    .project-title { font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .project-desc { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 480px; margin-bottom: 1rem; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 6px; }
+    .stack-badge { font-size: 11px; padding: 3px 10px; border-radius: 100px; background: rgba(244,167,185,0.08); color: var(--accent); border: 1px solid rgba(244,167,185,0.2); }
+    .project-links { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; white-space: nowrap; }
+    .link-btn {
+      font-size: 12px; color: var(--muted); text-decoration: none;
+      display: flex; align-items: center; gap: 4px; transition: color 0.2s;
+    }
+    .link-btn:hover { color: var(--text); }
+    .link-btn::after { content: '↗'; }
+
+    /* ── EXPERIENCE ── */
+    .exp-list { display: flex; flex-direction: column; gap: 2rem; }
+    .exp-item { display: grid; grid-template-columns: 180px 1fr; gap: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-period { font-size: 12px; color: var(--muted); padding-top: 0.25rem; }
+    .exp-company { font-weight: 500; margin-bottom: 0.25rem; }
+    .exp-role { font-size: 13px; color: var(--accent); margin-bottom: 0.5rem; }
+    .exp-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+    /* ── AWARDS ── */
+    .award-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+    .award-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem;
+    }
+    .award-year { font-size: 11px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+    .award-title { font-size: 14px; font-weight: 500; margin-bottom: 0.25rem; }
+    .award-org { font-size: 12px; color: var(--muted); }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    .contact-email {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 4rem);
+      letter-spacing: -0.02em;
+      color: var(--text); text-decoration: none;
+      display: inline-block; margin: 2rem 0;
+      transition: color 0.2s;
+    }
+    .contact-email:hover { color: var(--accent); }
+    .social-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+    .social-link { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .social-link:hover { color: var(--text); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-size: 12px; color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── ANIMATIONS ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      #hero { padding: 8rem 1.5rem 4rem; flex-direction: column-reverse; gap: 2rem; }
+      .hero-photo-wrap { width: 160px; height: 200px; align-self: center; }
+      section { padding: 5rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .project-item { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ────────── NAV ────────── -->
+<nav>
+  <!-- TODO: 본인 이름 또는 닉네임으로 바꾸세요 -->
+  <span class="nav-logo">Mina</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ────────── HERO ────────── -->
+<section id="hero">
+  <div class="hero-content">
+    <!-- TODO: 직무 또는 브랜드 키워드 (예: BACKEND & AI DEVELOPER) -->
+    <p class="hero-eyebrow">BACKEND & AI DEVELOPER</p>
+
+    <!-- TODO: 본인 이름. em 태그 안 단어가 포인트 색으로 표시됩니다 -->
+    <h1 class="hero-name">심민아</h1>
+
+    <!-- TODO: 한 줄 또는 두 줄 자기소개 -->
+    <p class="hero-desc">
+      백엔드 서버 개발자로서 안정적이고 확장 가능한 서버 시스템을 구축합니다.
+    <br>Java Spring Boot를 활용한 RESTful API 개발과 자동화된 빌드 배포 환경 및 고가용성 시스템 구축을 전문으로 합니다.
+    </p>
+
+    <div class="hero-cta">
+      <!-- TODO: 이력서 PDF 파일 경로 또는 링크로 변경 -->
+      <a href="resume.pdf" class="btn btn-primary">Resume</a>
+      <!-- TODO: 본인 GitHub URL로 변경 -->
+      <a href="https://github.com/S1mM1na" class="btn btn-outline" target="_blank">GitHub</a>
+      <a href="#contact" class="btn btn-outline">Contact</a>
+    </div>
+  </div>
+
+  <!-- ── 프로필 사진 ── -->
+  <div class="hero-photo-wrap">
+
+      <img src="profile.jpg" alt="프로필 사진" />
+    
+    <div class="hero-photo-placeholder">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ────────── ABOUT ────────── -->
+<section id="about">
+  <p class="section-label">About me</p>
+  <div class="about-grid reveal">
+    <div>
+      <h2>AI를 활용해 더 빠르게 배우고,<br>오래 유지되는 코드를 고민합니다</h2>
+    </div>
+    <div class="about-bio" style="display:flex; flex-direction:column; gap:1rem;">
+      <div style="padding:1.2rem; border:1px solid var(--border); border-radius:14px; background:rgba(255,255,255,0.02);">
+        <p><strong style="color:var(--accent);">Maintainable Code</strong><br>
+        기능 구현에서 끝나는 것이 아니라, 시간이 지나도 이해하기 쉽고 변경에 강한 구조를 만드는 것을 중요하게 생각합니다. 책임 분리, 명확한 네이밍, 일관된 API 설계를 통해 <strong>유지보수 비용을 줄이는 코드</strong>를 지향합니다.</p>
+      </div>
+
+      <div style="padding:1.2rem; border:1px solid var(--border); border-radius:14px; background:rgba(255,255,255,0.02);">
+        <p><strong style="color:var(--accent);">AI-assisted Development</strong><br>
+        AI 도구를 단순한 검색 수단이 아니라, 문제를 빠르게 분해하고 구현 방향을 검증하는 개발 도구로 활용합니다. 공식 문서와 코드 실험을 함께 병행하며 <strong>빠르게 학습하고 정확하게 이해하는 과정</strong>을 중요하게 생각합니다.</p>
+      </div>
+
+      <div style="padding:1.2rem; border:1px solid var(--border); border-radius:14px; background:rgba(255,255,255,0.02);">
+        <p><strong style="color:var(--accent);">Collaboration & Growth</strong><br>
+        읽기 쉬운 코드와 공유 가능한 문서가 좋은 협업의 시작이라고 믿습니다. 작은 기능이라도 왜 그렇게 설계했는지 설명할 수 있는 개발자가 되기 위해 꾸준히 기록하고 개선합니다.</p>
+      </div>
+      <!-- TODO: 관심 키워드 태그 추가/삭제 -->
+      <div class="tags">
+        <span class="tag">Maintainable Code</span>
+        <span class="tag">Spring Boot</span>
+        <span class="tag">REST API</span>
+        <span class="tag">AI-assisted Development</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────── SKILLS ────────── -->
+<section id="skills">
+  <p class="section-label">Tech stack</p>
+  <h2 class="reveal">기술을 이해하고<br>실제로 운영 가능한 형태로 구현합니다</h2>
+  <div class="skills-grid reveal">
+
+    <!-- TODO: 핵심 기술 목록 수정 -->
+    <div class="skill-card">
+      <h3>Core</h3>
+      <div class="skill-list">
+        <span class="skill-item">Java</span>
+        <span class="skill-item">C</span>
+        <span class="skill-item">Spring Boot</span>
+        <span class="skill-item">REST API</span>
+        <span class="skill-item">MySQL</span>
+        
+      </div>
+    </div>
+
+    <!-- TODO: 경험 있는 기술 목록 수정 -->
+    <div class="skill-card">
+      <h3>Experienced</h3>
+      <div class="skill-list">
+        <span class="skill-item">Python</span>
+        <span class="skill-item">C++</span>
+        <span class="skill-item">Django REST Framework</span>
+        <span class="skill-item">Firebase</span>
+        <span class="skill-item">JavaScript</span>
+        <span class="skill-item">HTML</span>
+        <span class="skill-item">CSS</span>
+      </div>
+    </div>
+
+    <!-- TODO: 학습 중인 기술 목록 수정 -->
+    <div class="skill-card">
+      <h3>Learning</h3>
+      <div class="skill-list">
+        <span class="skill-item">JPA</span>
+        <span class="skill-item">Docker</span>
+        <span class="skill-item">CI/CD</span>
+        <span class="skill-item">AWS</span>
+      </div>
+    </div>
+
+    <!-- TODO: 기타 언어/도구 목록 수정 (필요 없으면 이 카드 전체 삭제) -->
+    <div class="skill-card">
+      <h3>Tools</h3>
+      <div class="skill-list">
+        <span class="skill-item">Git</span>
+        <span class="skill-item">GitHub</span>
+        <span class="skill-item">Velog</span>
+        <span class="skill-item">OpenAI API</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ────────── PROJECTS ────────── -->
+<section id="projects">
+  <p class="section-label">Projects</p>
+  <h2 class="reveal">문제를 해결하며<br>쌓아온 프로젝트들</h2>
+
+  <div class="project-list reveal">
+
+    <!-- ── 프로젝트 1 ── TODO: 아래 내용을 채우세요 -->
+    <div class="project-item">
+      <div class="project-meta">
+        <p class="project-num">01</p>
+        <!-- TODO: 프로젝트 이름 -->
+        <h3 class="project-title">AI of AI</h3>
+        <!-- TODO: 한두 줄 설명 -->
+        <p class="project-desc">
+          여러 LLM의 응답을 비교·검증해 더 신뢰도 높은 결과를 제공하는 AI 서비스입니다. 
+          <br>GPT, Gemini, Claude 등의 모델 응답을 수집하고 Judge 모델 기반 평가 흐름을 구축했으며, 영상 분석 결과를 기반으로 객체 검색 및 한국어 질의응답 기능을 구현했습니다.<br><br>
+          <strong>Role.</strong> AI API 연동 및 백엔드 로직 구현, 응답 처리 파이프라인 개발<br>
+        </p>
+        <div class="project-stack">
+          <!-- TODO: 사용 기술 배지 추가/삭제 -->
+          <span class="stack-badge">Python</span>
+          <span class="stack-badge">Django REST Framework</span>
+          <span class="stack-badge">OpenAI API</span>
+          <span class="stack-badge">Gemini API</span>
+          <span class="stack-badge">Claude API</span>
+          <span class="stack-badge">YOLO</span>
+        </div>
+      </div>
+      <div class="project-links">
+        <!-- TODO: GitHub / Demo 링크 변경. 없는 링크는 삭제 -->
+        <a href="https://github.com/CBNU-SW-1-11/AI_of_AI" class="link-btn" target="_blank">GitHub</a>
+      </div>
+    </div>
+
+    <!-- ── 프로젝트 2 ── TODO: 아래 내용을 채우세요 -->
+    <div class="project-item">
+      <div class="project-meta">
+        <p class="project-num">02</p>
+        <h3 class="project-title">SNWA</h3>
+        <p class="project-desc">
+          해외 뉴스 기사를 자동으로 수집·번역해 사용자에게 제공하는 뉴스 플랫폼입니다. 
+          <br>크롤링한 해외 기사를 번역 처리한 뒤 사용자들이 편하게 열람할 수 있도록 구성했으며, 실시간 알림과 코인 시스템을 통해 사용자 활동 흐름을 설계했습니다. WebSocket 기반 실시간 통신 구조를 적용해 상태 변화를 즉시 반영할 수 있도록 구현했습니다.<br><br>
+          <strong>Role.</strong> 인증/인가, 코인 시스템, 실시간 알림 기능 구현<br>
+        </p>
+        <div class="project-stack">
+          <span class="stack-badge">Java</span>
+          <span class="stack-badge">Spring Boot</span>
+          <span class="stack-badge">Spring Security</span>
+          <span class="stack-badge">JWT</span>
+          <span class="stack-badge">WebSocket</span>
+          <span class="stack-badge">MySQL</span>
+        </div>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/final-project-snwa/final-project-snwa" class="link-btn" target="_blank">GitHub</a>
+      </div>
+    </div>
+
+    <div class="project-item">
+      <div class="project-meta">
+        <p class="project-num">03</p>
+        <h3 class="project-title">Premium Content Subscription</h3>
+        <p class="project-desc">
+          프리미엄 콘텐츠 구독 플랫폼입니다.
+          <br>사용자는 크리에이터의 콘텐츠를 단건 구매하거나 구독을 통해 열람할 수 있으며, 채널 기반으로 콘텐츠를 관리할 수 있도록 구현했습니다. JWT 기반 인증/인가 시스템을 적용해 사용자 권한과 접근 제어를 처리했습니다.<br><br>
+          <strong>Role.</strong> 인증/인가 로직 및 채널 기능 구현<br>
+        </p>
+        <div class="project-stack">
+          <span class="stack-badge">Java</span>
+          <span class="stack-badge">Spring Boot</span>
+          <span class="stack-badge">Spring Security</span>
+          <span class="stack-badge">JWT</span>
+          <span class="stack-badge">MySQL</span>
+        </div>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/ProjectSubscription" class="link-btn" target="_blank">GitHub</a>
+      </div>
+    </div>
+
+    <div class="project-item">
+      <div class="project-meta">
+        <p class="project-num">04</p>
+        <h3 class="project-title">Stock Prediction</h3>
+        <p class="project-desc">
+          주식 종목의 과거 데이터를 기반으로 향후 주가를 예측하는 프로젝트입니다. 
+          <br>Python 기반 LSTM 모델을 활용해 데이터를 학습하고 예측 결과를 생성했으며, 결과 데이터를 MySQL에 저장한 뒤 Spring Boot API를 통해 조회할 수 있도록 구현했습니다.<br><br>
+          <strong>Role.</strong> 데이터 처리, 예측 모델 연동, API 서버 구현<br>
+        </p>
+        <div class="project-stack">
+          <span class="stack-badge">Java</span>
+          <span class="stack-badge">Spring Boot</span>
+          <span class="stack-badge">Python</span>
+          <span class="stack-badge">LSTM</span>
+          <span class="stack-badge">MySQL</span>
+        </div>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/S1mM1na/StockPrediction" class="link-btn" target="_blank">GitHub</a>
+      </div>
+    </div>
+
+    <div class="project-item">
+      <div class="project-meta">
+        <p class="project-num">05</p>
+        <h3 class="project-title">Life Tracker</h3>
+        <p class="project-desc">
+          학습 루틴을 기록하고 관리할 수 있는 웹 애플리케이션입니다. 
+          <br>회원 인증, 일정 관리, 타이머/스톱워치, 음악 재생, 일기 기능 등을 하나의 흐름으로 연결했으며 Firebase 기반 사용자 데이터 관리 구조를 구현했습니다.<br><br>
+          <strong>Role.</strong> 프론트엔드 UI 구현 및 Firebase 연동<br>
+        </p>
+        <div class="project-stack">
+          <span class="stack-badge">HTML</span>
+          <span class="stack-badge">CSS</span>
+          <span class="stack-badge">JavaScript</span>
+          <span class="stack-badge">Firebase Auth</span>
+          <span class="stack-badge">Realtime Database</span>
+        </div>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/S1mM1na/Life-Tracker" class="link-btn" target="_blank">GitHub</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ────────── EXPERIENCE ────────── -->
+<section id="experience">
+  <p class="section-label">Experience</p>
+  <h2 class="reveal">경력과 활동</h2>
+
+  <div class="exp-list reveal">
+
+    <!-- ── 경력 1 ── TODO: 아래 내용을 채우세요 -->
+    <div class="exp-item">
+      <!-- TODO: 기간 (예: 2024.06 ~ 2024.07) -->
+      <span class="exp-period">2025.08 ~ 2026.02</span>
+      <div>
+        <!-- TODO: 회사/기관 이름 -->
+        <p class="exp-company">멋쟁이사자처럼 Java Backend Bootcamp</p>
+        <!-- TODO: 포지션 (예: Backend Intern) -->
+        <p class="exp-role">Java 백엔드 부트캠프 수료</p>
+        <!-- TODO: 무엇을 했는지 한두 줄 -->
+        <p class="exp-desc">Java와 Spring Boot 기반 백엔드 개발 과정을 수료하며 REST API 설계, 데이터베이스 연동, Git 기반 협업, 프론트엔드 개발 흐름까지 함께 학습했습니다. 데이터베이스 설계와 팀 프로젝트 개발 프로세스를 경험했으며, 최종 프로젝트에서 2등을 수상했습니다.</p>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <span class="exp-period">2024 ~ 2025</span>
+      <div>
+        <p class="exp-company">충북대학교 소프트웨어학부 학생회</p>
+        <p class="exp-role">학생회 활동</p>
+        <p class="exp-desc">학부 행사의 기획과 운영에 참여하며 구성원 간 커뮤니케이션, 일정 관리, 역할 분담을 경험했습니다. 해당 활동을 통해 책임감뿐만 아니라 협업 과정에서의 소통과 조율의 중요성도 배울 수 있었습니다.</p>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <span class="exp-period">2023</span>
+      <div>
+        <p class="exp-company">충북대학교 소프트웨어학부 학술동아리</p>
+        <p class="exp-role">임원진</p>
+        <p class="exp-desc">학술동아리 임원진으로 활동하며 학습 활동 운영과 구성원 관리를 경험했습니다. 함께 성장하는 개발 문화를 만들기 위해 스터디와 활동 운영에 참여했습니다.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ────────── AWARDS (선택) ────────── -->
+<!-- TODO: 수상 경력이 없으면 이 section 전체를 삭제하세요 -->
+<section id="awards">
+  <p class="section-label">Awards</p>
+  <h2 class="reveal">수상 및 성과</h2>
+  <div class="award-list reveal">
+
+    <!-- TODO: 수상 내역 채우기 -->
+    <div class="award-card">
+      <p class="award-year">2026.02</p>
+      <p class="award-title">최종 프로젝트 2등</p>
+      <p class="award-org">멋쟁이사자처럼 Java Backend Bootcamp</p>
+    </div>
+
+    <div class="award-card">
+      <p class="award-year">2025</p>
+      <p class="award-title">충청권 ICT 이노베이션 아이디어 및 SW 개발 공모전 본선 진출</p>
+      <p class="award-org">충청권 ICT 이노베이션 스퀘어</p>
+    </div>
+
+    <div class="award-card">
+      <p class="award-year">2025</p>
+      <p class="award-title">LG Aimers 수료</p>
+      <p class="award-org">LG AI Research</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ────────── CONTACT ────────── -->
+<section id="contact">
+  <p class="section-label" style="justify-content:center;">Contact</p>
+  <h2 class="reveal" style="font-size:clamp(1.5rem,3vw,2rem); margin-bottom:0.5rem;">새로운 기회와 협업을 기다립니다</h2>
+  <p style="color:var(--muted); margin-bottom:1rem;">백엔드 개발, 프로젝트 협업, 기술적인 대화 모두 편하게 연락 주세요.</p>
+
+  <!-- TODO: 본인 이메일 주소로 변경 -->
+  <a href="mailto:s1mm1n6h@gmail.com" class="contact-email reveal">s1mm1n6h@gmail.com</a>
+
+  <div class="social-links reveal">
+    <!-- TODO: 각 링크를 본인 URL로 변경. 없는 항목은 삭제 -->
+    <a href="https://github.com/S1mM1na" class="social-link" target="_blank">GitHub ↗</a>
+    <a href="https://velog.io/@s1mm1na/posts" class="social-link" target="_blank">Blog ↗</a>
+  </div>
+</section>
+
+<!-- ────────── FOOTER ────────── -->
+<footer>
+  <!-- TODO: 이름 변경 -->
+  © 2025 심민아. Built with HTML & intention.
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.15 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
